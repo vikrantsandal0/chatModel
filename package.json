@@ -1,0 +1,23 @@
+{
+  "name": "demo-chat-model",
+  "version": "1.0.0",
+  "description": "demo chat model",
+  "main": "server.js",
+  "author": "vikrant sandal",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "moment": "^2.13.0",
+    "underscore": "1.8.3",
+    "mysql": "2.5.4",
+    "joi": "^13.4.0",
+    "bluebird": "3.5.0"
+  },
+  "scripts": {
+    "test": "node server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
