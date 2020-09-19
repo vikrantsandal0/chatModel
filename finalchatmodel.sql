@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 18, 2020 at 04:59 PM
+-- Generation Time: Sep 19, 2020 at 02:16 PM
 -- Server version: 5.7.31-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
@@ -31,7 +31,7 @@ CREATE TABLE `channels` (
   `channel_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - one to one conversation, 1 - group conversation',
   `channel_name` varchar(255) DEFAULT NULL COMMENT 'only for type -1 ,groups can have names',
   `channel_picture` mediumtext COMMENT 'link of picture for type -1 , groups can have pictures',
-  `channel_admin` varchar(255) DEFAULT NULL COMMENT 'email of the admin of group(only for type -1)',
+  `channel_admin` bigint(20) NOT NULL COMMENT 'Id of the user who created channel',
   `channel_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '= 1 active ,  = 2 inactive',
   `creation_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time when channel was created'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -41,8 +41,8 @@ CREATE TABLE `channels` (
 --
 
 INSERT INTO `channels` (`channel_id`, `channel_type`, `channel_name`, `channel_picture`, `channel_admin`, `channel_status`, `creation_datetime`) VALUES
-(1, 0, NULL, NULL, NULL, 1, '2020-09-17 05:42:48'),
-(2, 0, NULL, NULL, NULL, 1, '2020-09-17 13:33:13');
+(4, 0, NULL, NULL, 1, 1, '2020-09-19 04:33:31'),
+(5, 1, 'himachal lads', 'group pofile photo link', 3, 1, '2020-09-19 06:11:36');
 
 -- --------------------------------------------------------
 
@@ -60,8 +60,8 @@ CREATE TABLE `channel_last_message` (
 --
 
 INSERT INTO `channel_last_message` (`message_id`, `channel_id`) VALUES
-(9, 1),
-(7, 2);
+(8, 4),
+(13, 5);
 
 -- --------------------------------------------------------
 
@@ -83,15 +83,19 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`message_id`, `user_id`, `channel_id`, `message_text`, `creation_datetime`, `is_deleted`) VALUES
-(1, 1, 1, 'hi SAHIL', '2020-09-17 07:25:03', 0),
-(2, 2, 1, 'YO WASUP!', '2020-09-17 07:34:59', 0),
-(3, 3, 2, 'hi sandy  nitish here', '2020-09-17 13:35:05', 0),
-(4, 1, 2, 'hey nitish', '2020-09-17 15:24:27', 0),
-(5, 3, 2, 'just checking if you fine', '2020-09-18 07:36:25', 0),
-(6, 3, 2, 'hey you arent replying', '2020-09-18 10:43:20', 0),
-(7, 3, 2, 'sandy reply bro', '2020-09-18 11:28:30', 0),
-(8, 1, 1, 'nothing much bro!', '2020-09-18 11:28:59', 0),
-(9, 2, 1, 'ight mate!', '2020-09-18 11:29:40', 0);
+(1, 1, 4, 'hey user2 how have you been?', '2020-09-19 04:35:48', 0),
+(2, 2, 4, 'hey user1', '2020-09-19 05:29:20', 0),
+(3, 2, 4, 'i am great how are you', '2020-09-19 05:29:20', 0),
+(4, 1, 4, 'i am great as well,thankyou for asking ', '2020-09-19 05:44:00', 0),
+(5, 1, 4, 'hows fam?', '2020-09-19 05:44:00', 0),
+(6, 1, 4, 'and your daughter ?', '2020-09-19 05:44:30', 0),
+(7, 1, 4, 'man i am coming to meet ya', '2020-09-19 05:44:30', 0),
+(8, 1, 4, 'lets have a drink together', '2020-09-19 05:44:48', 0),
+(9, 3, 5, 'guys up for dinner?', '2020-09-19 06:12:44', 0),
+(10, 1, 5, 'i am not feeling good', '2020-09-19 06:21:22', 0),
+(11, 1, 5, 'i will take a rain check this time', '2020-09-19 06:21:22', 0),
+(12, 2, 5, 'me too, let plan it for another day', '2020-09-19 06:44:37', 0),
+(13, 2, 5, 'sunday probably', '2020-09-19 06:44:37', 0);
 
 --
 -- Triggers `messages`
@@ -138,9 +142,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `access_token`, `username`, `email`, `password`, `profile_photo`, `phone_no`, `is_active`) VALUES
-(1, '', 'vikrant', 'vikrantsandal0@gmail.com', '70f77978466b9a3073d41c5e3fbbcfb1', 'ugly face', '9501910623', 1),
-(2, '', 'sahil', 'sahil@gmail.com', '70f77978466b9a3073d41c5e3fbbcfb1', 'ugly shit', '9501910622', 1),
-(3, '432dszxc422424442', 'nitish', 'nitish@gmail.com', '70f77978466b9a3073d41c5e3fbbcfb1', 'ugly face', '9816664466', 1);
+(1, '432dszxc42242444255', 'user1', 'user1@yopmail.com', '70f77978466b9a3073d41c5e3fbbcfb1', 'user1 profile picture link', '9501910623', 1),
+(2, '432dszxc4224244433', 'user2', 'user2@yopmail.com', '70f77978466b9a3073d41c5e3fbbcfb1', 'user2 profile picture link', '9501910622', 1),
+(3, '432dszxc422424442', 'user3', 'user3@yopmail.com', '70f77978466b9a3073d41c5e3fbbcfb1', 'user3 profile picture link', '94394944344', 1);
 
 -- --------------------------------------------------------
 
@@ -163,10 +167,11 @@ CREATE TABLE `user_channels` (
 --
 
 INSERT INTO `user_channels` (`user_channel_id`, `user_id`, `channel_id`, `status`, `last_read_msg_id`, `is_pinned`, `created_at`) VALUES
-(1, 1, 1, 1, 2, 0, '2020-09-18 05:15:18'),
-(2, 2, 1, 1, 0, 0, '2020-09-18 05:15:18'),
-(3, 1, 2, 1, 5, 0, '2020-09-18 05:15:18'),
-(4, 3, 2, 1, 0, 0, '2020-09-18 05:15:18');
+(1, 1, 4, 1, 8, 0, '2020-09-19 04:34:49'),
+(2, 2, 4, 1, 8, 0, '2020-09-19 04:34:49'),
+(3, 3, 5, 1, 13, 0, '2020-09-19 06:11:58'),
+(4, 1, 5, 1, 11, 0, '2020-09-19 06:11:58'),
+(5, 2, 5, 1, 13, 0, '2020-09-19 06:12:06');
 
 --
 -- Indexes for dumped tables
@@ -176,7 +181,8 @@ INSERT INTO `user_channels` (`user_channel_id`, `user_id`, `channel_id`, `status
 -- Indexes for table `channels`
 --
 ALTER TABLE `channels`
-  ADD PRIMARY KEY (`channel_id`);
+  ADD PRIMARY KEY (`channel_id`),
+  ADD KEY `channel_admin_FK` (`channel_admin`);
 
 --
 -- Indexes for table `channel_last_message`
@@ -188,7 +194,9 @@ ALTER TABLE `channel_last_message`
 -- Indexes for table `messages`
 --
 ALTER TABLE `messages`
-  ADD PRIMARY KEY (`message_id`);
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `idx_user_id_messages` (`user_id`),
+  ADD KEY `idx_channel_id_messages` (`channel_id`);
 
 --
 -- Indexes for table `users`
@@ -201,8 +209,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_channels`
   ADD PRIMARY KEY (`user_channel_id`),
-  ADD KEY `channel_mapping` (`channel_id`),
-  ADD KEY `user_mapping` (`user_id`);
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_channel_id` (`channel_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -212,12 +220,12 @@ ALTER TABLE `user_channels`
 -- AUTO_INCREMENT for table `channels`
 --
 ALTER TABLE `channels`
-  MODIFY `channel_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `channel_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `message_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -227,10 +235,16 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_channels`
 --
 ALTER TABLE `user_channels`
-  MODIFY `user_channel_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_channel_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `channels`
+--
+ALTER TABLE `channels`
+  ADD CONSTRAINT `channel_admin_FK` FOREIGN KEY (`channel_admin`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `user_channels`

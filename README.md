@@ -1,6 +1,6 @@
 # simple-chat-model
-* A simple yet comprehensive chat model built in mysql.
-* An API built in Node.js to fetch all chat channels (one to one OR group) ,last sent messages and unread message count.
+* A simple yet comprehensive chat model (**finalchatmodel.sql**) built in mysql. 
+* An API built in Node.js to fetch all chat channels (one to one OR group) ,last sent message and unread message count.
 
 
 ### chat model tables
@@ -43,8 +43,7 @@
    * user1 creates a channel to talk to user2 and sends a message.
    * new channel id 4 created in table - **channels** (ch)
    * two new rows inserted in  **user_channels** table, user1 - ch4 AND user2 - ch4
-   * message_id is created in **messages**, user1 - ch4 - message text and copied in table **channel_last_message** as        
-     channels latest message (message_id , channel_id) .
+   * message_id is created in **messages**, user1 - ch4 - message text and copied in table **channel_last_message** as channels latest message (message_id , channel_id) .
    * last_read_msg_id is updated to newly created message_id in **user_channels** corresponding to user1 - ch4 entry.
 
    * **API results for first page for USER1 when USER2 hasnt replied yet and channel has a single messsage**
@@ -71,8 +70,7 @@
    ```
 
    * user2 sees the message and replies with 2 new messages which updates the last_read_msg_id in **user_channels** for user2 - ch4 entry .
-   * 2 messages_ids are created in **messages** for user2 - ch4 entry, which furthur updates the latest message of ch-4 in 
-   **channel_last_message** .
+   * 2 messages_ids are created in **messages** for user2 - ch4 entry, which furthur updates the latest message of ch-4 in **channel_last_message** .
 
 
    * **API results for first page for USER1 when USER2 has replied with 2 new messages which USER1 hasnt seen yet**
@@ -99,8 +97,7 @@
    ```
 
    * user1 sees the message and replies with 5 new messages which updates the last_read_msg_id in **user_channels** for user1 - ch4 entry .
-   * 5 new messages_ids are created in **messages** for user1 - ch4 entry, which furthur updates the latest message of ch-4 in 
-   **channel_last_message** .
+   * 5 new messages_ids are created in **messages** for user1 - ch4 entry, which furthur updates the latest message of ch-4 in **channel_last_message** .
 
    * **API results for first page for USER2 when USER1 has replied with 5 new messages which USER2 hasnt seen yet**
    ```{
@@ -158,8 +155,7 @@
    ```
 
    * user1 sees the message and replies with 2 new messages which updates the last_read_msg_id in **user_channels** for user1 - ch5 entry .
-   * 2 messages_ids are created in **messages** for user1 - ch5 entry, which furthur updates the latest message of ch-5 in 
-   **channel_last_message** .
+   * 2 messages_ids are created in **messages** for user1 - ch5 entry, which furthur updates the latest message of ch-5 in **channel_last_message** .
    * user2 still hasnt seen any of the messages sent by user3 or user1.
 
 
@@ -229,8 +225,9 @@
    * and the process continues.
 
 ### ENHANCEMENTS
- * deleted texts by using existing **is_deleted** column in **messages** table.
+ * delete texts or displaying 'you deleted this message' for users own message OR 'this message was deleted' for other user's message by using existing **is_deleted** column in **messages** table.
  * pinned channels by using existing **is_pinned** column in **user_channels**.
+ * storing encrypted messages and decrypting them while fetching.
 
  ### FOLDER STRUCTURE,LIBRARIES AND HOW TO USE
  * the complete structure has been built using Node.js, mysql and other libs like bluebird, underscore, joi etc.
@@ -241,6 +238,10 @@
 
 ### POSTMAN
 [link](https://www.getpostman.com/collections/60914efab30f929c8bfd) 
+
+### ER DIAGRAM
+![er diagram](https://user-images.githubusercontent.com/38485799/93663062-97576100-fa82-11ea-9436-d6d0538a7dff.png)
+
 
 ## Authors
 
